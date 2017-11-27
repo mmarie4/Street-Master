@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundcustom">
+
+
+
+    <ImageButton
+        android:id="@+id/menu_button"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="9dp"
+        app:srcCompat="@drawable/menu_button" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Use arrows to move\n\nEnnemies:\n  - Cops: game over\n  - Tree: you lose health points\n  -Old lady: you earn money, but you lose street cred for the current game\n  - Gangster: Depending on your strength, you either earn money or lose health points. Depending on your street cred your have a chance to earn money without fighting.\n\nStay alive to score !\nHave fun !"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:gravity="center"/>
+
+</RelativeLayout>
