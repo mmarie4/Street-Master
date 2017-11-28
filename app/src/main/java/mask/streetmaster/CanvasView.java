@@ -69,6 +69,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
         p.x = (int)(me.getX());
         switch (me.getActionMasked()) {
             case MotionEvent.ACTION_UP:
+                // button clicked
                 if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_left = false;
                 }
@@ -85,6 +86,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
                 }
                 break;
             case MotionEvent.ACTION_DOWN:
+                // stop moving
                 if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_left = true;
                 }
@@ -93,14 +95,23 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
                 }
                 break;
             /*case MotionEvent.ACTION_MOVE:
-                if(!left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
-                    engine.moving_left = false;
-                }
-                if(!right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
-                    engine.moving_right = false;
+                // click and drag out the zone deactivate the move
+                int number_outside_left=0;
+                int number_outside_right=0;
+                for(int i=0; i<me.getPointerCount();i++){
+                    if(!left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
+                        number_outside_left++;
+                    }
+                    if(!right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
+                        number_outside_right++;
+                    }
+                    // now we check if the left and right buttons are really not clicked
+                    if(number_outside_left==me.getPointerCount()) engine.moving_left=false;
+                    if(number_outside_right==me.getPointerCount()) engine.moving_right=false;
                 }
                 break;*/
             case MotionEvent.ACTION_POINTER_DOWN:
+                // second touch
                 if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_left = true;
                 }
@@ -109,6 +120,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
                 }
                 break;
             case MotionEvent.ACTION_POINTER_UP:
+                // second finger leave
                 if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_left = false;
                 }

@@ -24,7 +24,7 @@ public class GameThread extends Thread {
 
     @Override
     public void run() {
-        long FPS = 60;
+        long FPS = 50;
         long ticksPS = (long) (1000.0 / FPS);
         long startTime;
         long sleepTime;
