@@ -130,8 +130,8 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
 
     public void initButtons(){
         int left_x = (int) (width * 5.0/100);
-        int left_y = (int) (height * 92.0/100);
-        int right_x = (int) (width * 95.0/100) - engine.right_button_image.getWidth();
+        int left_y = (int) (height * 97.0/100) - engine.left_button_image.getHeight();
+        int right_x = (int) (width * 95.0/100 - engine.right_button_image.getWidth());
         int right_y = left_y;
         int menu_x = (int) (width * 75.0/100);
         int menu_y = (int) (height * 2.0/100);

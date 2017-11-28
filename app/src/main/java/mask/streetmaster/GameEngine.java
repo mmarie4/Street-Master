@@ -97,14 +97,14 @@ public class GameEngine  {
 
         canvas.drawBitmap(bmp_background_scaled, null, background_rect, _paint);
 
+        drawTrees(canvas);
         drawCops(canvas);
         drawGangsters(canvas);
-        drawTrees(canvas);
         drawCharacter(canvas);
         _paint.setTextSize(45);
         _paint.setColor(Color.WHITE);
         canvas.drawText("Score: "+score, (float)(width*3.0/100), (float)(height*3.0/100), _paint);
-        canvas.drawText("Money: "+money, (float)(width*3.0/100), (float)(height*6.0/100), _paint);
+        canvas.drawText("Money: "+money+" $", (float)(width*3.0/100), (float)(height*6.0/100), _paint);
         _paint.setColor(Color.RED);
         canvas.drawRect((float)(width*3.0/100),(float)(height*8.0/100), (float)(width*3.0/100 + (current_hp*width*1.0/100)), (float)(height*10.0/100), _paint);
         if(game_over){
