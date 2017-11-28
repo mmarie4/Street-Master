@@ -43,15 +43,14 @@ public class GameThread extends Thread {
                 }
             }
             sleepTime = ticksPS-(System.currentTimeMillis() - startTime);
-            Log.e("tag", "loop time: " + (ticksPS-sleepTime));
+            //Log.e("tag", "loop time: " + (ticksPS-sleepTime));
             try {
                 if (sleepTime > 0) {
                     sleep(sleepTime);
-                    Log.e("tag", "sleeptime: " + sleepTime);
+                    //Log.e("tag", "sleeptime: " + sleepTime);
                 }
                 else{
                     sleep(4);
-                    Log.e("tag", "default sleeptime: 2");
                 }
             } catch (Exception e) {}
         }

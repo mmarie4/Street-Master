@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 
 public class GameEngine  {
@@ -53,6 +54,8 @@ public class GameEngine  {
     }
 
     public void Update() {
+        if(moving_left) Log.e("MOVING: ", "MOVING LEFT");
+        if(moving_right) Log.e("MOVING: ", "MOVING RIGHT");
         if(!game_over){
             score++;
             if(current_hp<=0) {
@@ -93,7 +96,6 @@ public class GameEngine  {
         drawCops(canvas);
         drawGangsters(canvas);
         drawTrees(canvas);
-        drawButtons(canvas);
         drawCharacter(canvas);
         _paint.setTextSize(45);
         _paint.setColor(Color.WHITE);
@@ -112,6 +114,7 @@ public class GameEngine  {
             canvas.drawText("Money earned: "+money+" $", (int)(width*20.0/100), (int)(height*60.0/100), _paint);
             canvas.drawBitmap(replay_button_image, null, replay_button_rect, _paint);
         }
+        drawButtons(canvas);
     }
 
     public void drawButtons(Canvas canvas) {
@@ -163,7 +166,7 @@ public class GameEngine  {
             while(cops[i].active && i<cops.length-1) {
                 i++;
             }
-            cops[i].replaceSpawn(width);
+            if(!cops[i].active) cops[i].replaceSpawn(width);
         }
         // move active cops, desactivate cops outside map, and check collision with character
         for(int j=0; j<cops.length; j++) {
@@ -188,7 +191,7 @@ public class GameEngine  {
             while(trees[i].active && i<trees.length-1) {
                 i++;
             }
-            trees[i].replaceSpawn(width);
+            if(!trees[i].active) trees[i].replaceSpawn(width);
         }
         // move active trees and desactivate trees outside map and check collisions
         for(int j=0; j<trees.length; j++) {
@@ -216,7 +219,7 @@ public class GameEngine  {
             while(gangsters[i].active && i<gangsters.length-1) {
                 i++;
             }
-            gangsters[i].replaceSpawn(width);
+            if(!gangsters[i].active) gangsters[i].replaceSpawn(width);
         }
         // move active gangsters and desactivate gangsters outside map
         for(int j=0; j<gangsters.length; j++) {

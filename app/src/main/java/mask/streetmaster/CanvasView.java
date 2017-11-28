@@ -63,18 +63,19 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public boolean onTouchEvent (MotionEvent me) {
+        int pointerIndex = me.getActionIndex();
         Point p = new Point();
         p.y = (int)(me.getY());
         p.x = (int)(me.getX());
-        switch (me.getAction()) {
+        switch (me.getActionMasked()) {
             case MotionEvent.ACTION_UP:
-                if(left_button_rect.contains(p.x, p.y)){
+                if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_left = false;
                 }
-                if(right_button_rect.contains(p.x, p.y)){
+                if(right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_right = false;
                 }
-                if(menu_button_rect.contains(p.x, p.y)) {
+                if(menu_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
                     thread.interrupt();
                     Intent intent = new Intent(context, MainActivity.class);
                     context.startActivity(intent);
@@ -84,18 +85,34 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
                 }
                 break;
             case MotionEvent.ACTION_DOWN:
-                if(left_button_rect.contains(p.x, p.y)){
+                if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_left = true;
                 }
-                if(right_button_rect.contains(p.x, p.y)){
+                if(right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_right = true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if(!left_button_rect.contains(p.x, p.y)) {
+                if(!left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
                     engine.moving_left = false;
                 }
-                if(!right_button_rect.contains(p.x, p.y)) {
+                if(!right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
+                    engine.moving_right = false;
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                    engine.moving_left = true;
+                }
+                if(right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                    engine.moving_right = true;
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                    engine.moving_left = false;
+                }
+                if(right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_right = false;
                 }
                 break;
