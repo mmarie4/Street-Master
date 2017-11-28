@@ -43,7 +43,7 @@ public class GameThread extends Thread {
                 }
             }
             sleepTime = ticksPS-(System.currentTimeMillis() - startTime);
-            Log.e("tag", "render time: " + (ticksPS-sleepTime));
+            Log.e("tag", "loop time: " + (ticksPS-sleepTime));
             try {
                 if (sleepTime > 0) {
                     sleep(sleepTime);

@@ -44,12 +44,12 @@ public class GameEngine  {
         replay_button_image = BitmapFactory.decodeResource(context.getResources(), R.drawable.replay);
         gameover_background = BitmapFactory.decodeResource(context.getResources(), R.drawable.gameover);
 
-        cops = new Ennemy[20];
-        for(int i=0; i<20; i++) cops[i] = new Ennemy(1, BitmapFactory.decodeResource(context.getResources(), R.drawable.cops));
-        trees = new Ennemy[20];
-        for(int j=0; j<20; j++) trees[j] = new Ennemy(0, BitmapFactory.decodeResource(context.getResources(), R.drawable.tree));
-        gangsters = new Ennemy[20];
-        for(int k=0; k<20; k++) gangsters[k] = new Ennemy(2, BitmapFactory.decodeResource(context.getResources(), R.drawable.gangster));
+        cops = new Ennemy[10];
+        for(int i=0; i<cops.length; i++) cops[i] = new Ennemy(1, BitmapFactory.decodeResource(context.getResources(), R.drawable.cops));
+        trees = new Ennemy[10];
+        for(int j=0; j<trees.length; j++) trees[j] = new Ennemy(0, BitmapFactory.decodeResource(context.getResources(), R.drawable.tree));
+        gangsters = new Ennemy[10];
+        for(int k=0; k<gangsters.length; k++) gangsters[k] = new Ennemy(2, BitmapFactory.decodeResource(context.getResources(), R.drawable.gangster));
     }
 
     public void Update() {
@@ -125,7 +125,7 @@ public class GameEngine  {
     }
 
     public void drawCops(Canvas canvas) {
-        for(int i=0; i<20; i++) {
+        for(int i=0; i<cops.length; i++) {
             if(cops[i].active) {
                 canvas.drawBitmap(cops[i].image, null, cops[i].box, _paint);
             }
@@ -133,7 +133,7 @@ public class GameEngine  {
     }
 
     public void drawTrees(Canvas canvas) {
-        for(int i=0; i<20; i++) {
+        for(int i=0; i<trees.length; i++) {
             if(trees[i].active) {
                 canvas.drawBitmap(trees[i].image, null, trees[i].box, _paint);
             }
@@ -141,7 +141,7 @@ public class GameEngine  {
     }
 
     public void drawGangsters(Canvas canvas) {
-        for(int i=0; i<20; i++) {
+        for(int i=0; i<gangsters.length; i++) {
             if(gangsters[i].active) {
                 canvas.drawBitmap(gangsters[i].image, null, gangsters[i].box, _paint);
             }
@@ -160,13 +160,13 @@ public class GameEngine  {
         double random_spawn = Math.random();
         if(random_spawn>0.95) {
             int i=0;
-            while(cops[i].active && i<19) {
+            while(cops[i].active && i<cops.length-1) {
                 i++;
             }
             cops[i].replaceSpawn(width);
         }
         // move active cops, desactivate cops outside map, and check collision with character
-        for(int j=0; j<20; j++) {
+        for(int j=0; j<cops.length; j++) {
             if(cops[j].active) {
                 cops[j].y += cops[j].speed*height*0.05/100;
                 cops[j].updateBox();
@@ -185,13 +185,13 @@ public class GameEngine  {
         double random_spawn = Math.random();
         if(random_spawn>0.95) {
             int i=0;
-            while(trees[i].active && i<19) {
+            while(trees[i].active && i<trees.length-1) {
                 i++;
             }
             trees[i].replaceSpawn(width);
         }
         // move active trees and desactivate trees outside map and check collisions
-        for(int j=0; j<20; j++) {
+        for(int j=0; j<trees.length; j++) {
             if(trees[j].active) {
                 trees[j].y += trees[j].speed*height*0.05/100;
                 trees[j].updateBox();
@@ -213,13 +213,13 @@ public class GameEngine  {
         double random_spawn = Math.random();
         if(random_spawn>0.90) {
             int i=0;
-            while(gangsters[i].active && i<19) {
+            while(gangsters[i].active && i<gangsters.length-1) {
                 i++;
             }
             gangsters[i].replaceSpawn(width);
         }
         // move active gangsters and desactivate gangsters outside map
-        for(int j=0; j<20; j++) {
+        for(int j=0; j<gangsters.length; j++) {
             if(gangsters[j].active) {
                 gangsters[j].y += gangsters[j].speed*height*0.05/100;
                 gangsters[j].updateBox();
