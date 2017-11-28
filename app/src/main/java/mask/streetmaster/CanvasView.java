@@ -92,14 +92,14 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
                     engine.moving_right = true;
                 }
                 break;
-            case MotionEvent.ACTION_MOVE:
+            /*case MotionEvent.ACTION_MOVE:
                 if(!left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
                     engine.moving_left = false;
                 }
                 if(!right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
                     engine.moving_right = false;
                 }
-                break;
+                break;*/
             case MotionEvent.ACTION_POINTER_DOWN:
                 if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
                     engine.moving_left = true;
@@ -137,8 +137,8 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
         int menu_y = (int) (height * 2.0/100);
         int replay_x = (int) (width*50.0/100 - engine.replay_button_image.getWidth()/2);
         int replay_y = (int) (height*75.0/100);
-        left_button_rect = new Rect(left_x, left_y, left_x+engine.left_button_image.getWidth()+20, left_y+engine.left_button_image.getHeight()+20);
-        right_button_rect = new Rect(right_x, right_y, right_x+engine.right_button_image.getWidth()+20, right_y+engine.right_button_image.getHeight()+20);
+        left_button_rect = new Rect(left_x, left_y, left_x+engine.left_button_image.getWidth(), left_y+engine.left_button_image.getHeight());
+        right_button_rect = new Rect(right_x, right_y, right_x+engine.right_button_image.getWidth(), right_y+engine.right_button_image.getHeight());
         menu_button_rect = new Rect(menu_x, menu_y, menu_x+engine.menu_button_image.getWidth(), menu_y+engine.menu_button_image.getHeight());
         replay_button_rect = new Rect(replay_x, replay_y, replay_x+engine.replay_button_image.getWidth(), replay_y+engine.replay_button_image.getHeight());
         engine.setRectButtons(left_button_rect, right_button_rect, menu_button_rect, replay_button_rect);

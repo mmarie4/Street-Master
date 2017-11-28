@@ -24,7 +24,7 @@ public class GameThread extends Thread {
 
     @Override
     public void run() {
-        long FPS = 40;
+        long FPS = 60;
         long ticksPS = (long) (1000.0 / FPS);
         long startTime;
         long sleepTime;
@@ -43,14 +43,14 @@ public class GameThread extends Thread {
                 }
             }
             sleepTime = ticksPS-(System.currentTimeMillis() - startTime);
-            //Log.e("tag", "loop time: " + (ticksPS-sleepTime));
+            Log.e("tag", "loop time: " + (ticksPS-sleepTime));
             try {
                 if (sleepTime > 0) {
                     sleep(sleepTime);
-                    //Log.e("tag", "sleeptime: " + sleepTime);
+                    Log.e("tag", "sleeptime: " + sleepTime);
                 }
                 else{
-                    sleep(4);
+                    sleep(5);
                 }
             } catch (Exception e) {}
         }

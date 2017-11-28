@@ -14,7 +14,7 @@ public class GameEngine  {
     Paint _paint;
     Character character;
     boolean moving_left, moving_right;
-    Bitmap bmp_background, bmp_character, gameover_background;
+    Bitmap bmp_background, bmp_character, gameover_background, bmp_background_scaled;
     Context context;
     int width, height;
     Rect background_rect, left_button_rect, right_button_rect, character_rect, menu_button_rect, replay_button_rect, gameover_rect;
@@ -73,10 +73,10 @@ public class GameEngine  {
 
     public void updateCharacter() {
         if(moving_left) {
-            character.x -= (int)(character.speed*width*0.1/100);
+            character.x -= (int)(character.speed*width*0.05/100);
         }
         if(moving_right) {
-            character.x += (int)(character.speed*width*0.1/100);
+            character.x += (int)(character.speed*width*0.05/100);
         }
         if(character.x <= 0) {
             character.x = 0;
@@ -84,15 +84,19 @@ public class GameEngine  {
         if(character.x >= (width-character_rect.width())) {
             character.x = (width-character_rect.width());
         }
+        character_rect.set(character.x, (int)(height*80.0/100), character.x+bmp_character.getWidth(), (int)(height*80.0/100)+bmp_character.getHeight());
     }
 
     public void Draw(Canvas canvas){
-        width = canvas.getWidth();
-        height = canvas.getHeight();
-        character_rect.set(character.x, (int)(height*80.0/100), character.x+bmp_character.getWidth(), (int)(height*80.0/100)+bmp_character.getHeight());
-        background_rect.set(0, 0, width, height);
+        if((canvas.getWidth()!=width) || (canvas.getHeight()!=height)){
+            width = canvas.getWidth();
+            height = canvas.getHeight();
+            background_rect.set(0, 0, width, height);
+            setScaledBackground();
+        }
 
-        canvas.drawBitmap(bmp_background, null, background_rect, _paint);
+        canvas.drawBitmap(bmp_background_scaled, null, background_rect, _paint);
+
         drawCops(canvas);
         drawGangsters(canvas);
         drawTrees(canvas);
@@ -171,7 +175,7 @@ public class GameEngine  {
         // move active cops, desactivate cops outside map, and check collision with character
         for(int j=0; j<cops.length; j++) {
             if(cops[j].active) {
-                cops[j].y += cops[j].speed*height*0.05/100;
+                cops[j].y += cops[j].speed*height*0.025/100;
                 cops[j].updateBox();
                 if(cops[j].y >= height) {
                     cops[j].setActive(false);
@@ -196,7 +200,7 @@ public class GameEngine  {
         // move active trees and desactivate trees outside map and check collisions
         for(int j=0; j<trees.length; j++) {
             if(trees[j].active) {
-                trees[j].y += trees[j].speed*height*0.05/100;
+                trees[j].y += trees[j].speed*height*0.025/100;
                 trees[j].updateBox();
                 if(trees[j].y >= height) {
                     trees[j].setActive(false);
@@ -224,7 +228,7 @@ public class GameEngine  {
         // move active gangsters and desactivate gangsters outside map
         for(int j=0; j<gangsters.length; j++) {
             if(gangsters[j].active) {
-                gangsters[j].y += gangsters[j].speed*height*0.05/100;
+                gangsters[j].y += gangsters[j].speed*height*0.025/100;
                 gangsters[j].updateBox();
                 if(gangsters[j].y >= height) {
                     gangsters[j].setActive(false);
@@ -255,5 +259,9 @@ public class GameEngine  {
         for(int i = 0; i<cops.length; i++) cops[i].reset();
         for(int j = 0; j<trees.length; j++) trees[j].reset();
         for(int k = 0; k<gangsters.length; k++) gangsters[k].reset();
+    }
+
+    public void setScaledBackground() {
+        bmp_background_scaled = Bitmap.createScaledBitmap(bmp_background, width, height, true);
     }
 }
