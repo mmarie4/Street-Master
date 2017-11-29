@@ -26,9 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Use arrows to move\n\nEnnemies:\n  - Cops: game over\n  - Tree: you lose health points\n  -Old lady: you earn money, but you lose street cred for the current game\n  - Gangster: Depending on your strength, you either earn money or lose health points. Depending on your street cred your have a chance to earn money without fighting.\n\nStay alive to score !\nHave fun !"
+        android:text="Use arrows to move\n\nTREES: you lose 5 HP.\nGANGSTERS: The one with more strength wins (they have between 0 and 200). Fight them to earn 100 pts or lose 5 HP.\nCOPS: GAME OVER. Depending on your street credibility you have a chance to intimidate the cop and be saved (1 cred = 0.1% chance).\nStay alive and beat gangsters to score!\nHave fun!"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:gravity="center"/>
+        android:textSize="24sp"/>
 
 </RelativeLayout>

@@ -19,8 +19,9 @@ public class GameEngine  {
     int width, height;
     Rect background_rect, left_button_rect, right_button_rect, character_rect, menu_button_rect, replay_button_rect, gameover_rect;
     Bitmap left_button_image, right_button_image, menu_button_image, replay_button_image;
-    Ennemy[] cops, trees, gangsters;
+    Ennemy[] cops, trees, gangsters, coins;
     int score, money, current_hp;
+    double cred_cop;
     boolean game_over;
 
     public GameEngine(Character c, Context pContext) {
@@ -30,6 +31,7 @@ public class GameEngine  {
         context = pContext;
         score=0;
         money=0;
+        cred_cop=0;
         game_over=false;
         current_hp=character.max_hp;
 
@@ -51,11 +53,12 @@ public class GameEngine  {
         for(int j=0; j<trees.length; j++) trees[j] = new Ennemy(0, BitmapFactory.decodeResource(context.getResources(), R.drawable.tree));
         gangsters = new Ennemy[10];
         for(int k=0; k<gangsters.length; k++) gangsters[k] = new Ennemy(2, BitmapFactory.decodeResource(context.getResources(), R.drawable.gangster));
+        coins = new Ennemy[10];
+        for(int k=0; k<coins.length; k++) coins[k] = new Ennemy(3, BitmapFactory.decodeResource(context.getResources(), R.drawable.coins));
+
     }
 
     public void Update() {
-        if(moving_left) Log.e("MOVING: ", "MOVING LEFT");
-        if(moving_right) Log.e("MOVING: ", "MOVING RIGHT");
         if(!game_over){
             score++;
             if(current_hp<=0) {
@@ -68,15 +71,16 @@ public class GameEngine  {
             handleTrees();
             handleGangsters();
             handleCops();
+            handleCoins();
         }
     }
 
     public void updateCharacter() {
         if(moving_left) {
-            character.x -= (int)(character.speed*width*0.05/100);
+            character.x -= (int)(character.speed*width*0.08/100);
         }
         if(moving_right) {
-            character.x += (int)(character.speed*width*0.05/100);
+            character.x += (int)(character.speed*width*0.08/100);
         }
         if(character.x <= 0) {
             character.x = 0;
@@ -100,6 +104,7 @@ public class GameEngine  {
         drawTrees(canvas);
         drawCops(canvas);
         drawGangsters(canvas);
+        drawCoins(canvas);
         drawCharacter(canvas);
         _paint.setTextSize(45);
         _paint.setColor(Color.WHITE);
@@ -147,6 +152,14 @@ public class GameEngine  {
         }
     }
 
+    public void drawCoins(Canvas canvas) {
+        for(int i=0; i<coins.length; i++) {
+            if(coins[i].active) {
+                canvas.drawBitmap(coins[i].image, null, coins[i].box, _paint);
+            }
+        }
+    }
+
     public void drawGangsters(Canvas canvas) {
         for(int i=0; i<gangsters.length; i++) {
             if(gangsters[i].active) {
@@ -165,7 +178,7 @@ public class GameEngine  {
     public void handleCops() {
         // random spawn
         double random_spawn = Math.random();
-        if(random_spawn>0.95) {
+        if(random_spawn>0.97) {
             int i=0;
             while(cops[i].active && i<cops.length-1) {
                 i++;
@@ -181,7 +194,12 @@ public class GameEngine  {
                     cops[j].setActive(false);
                 }
                 if(cops[j].box.intersects(character_rect.left, character_rect.top, character_rect.right, character_rect.bottom)) {
-                    current_hp=0;
+                    cred_cop = (int)(Math.random()*1000);
+                    if(character.cred>=cred_cop){
+                        cops[j].setActive(false);
+                    }else{
+                        current_hp=0;
+                    }
                 }
             }
         }
@@ -190,7 +208,7 @@ public class GameEngine  {
     public void handleTrees() {
         // random spawn
         double random_spawn = Math.random();
-        if(random_spawn>0.95) {
+        if(random_spawn>0.98) {
             int i=0;
             while(trees[i].active && i<trees.length-1) {
                 i++;
@@ -218,7 +236,7 @@ public class GameEngine  {
     public void handleGangsters() {
         // random spawn
         double random_spawn = Math.random();
-        if(random_spawn>0.90) {
+        if(random_spawn>0.96) {
             int i=0;
             while(gangsters[i].active && i<gangsters.length-1) {
                 i++;
@@ -241,10 +259,36 @@ public class GameEngine  {
                             current_hp -= 5;
                             gangsters[j].fight_done = true;
                         }else{
-                            money += 5+character.cred;
+                            score += 100;
                             gangsters[j].setActive(false);
                         }
                     }
+                }
+            }
+        }
+    }
+
+    public void handleCoins() {
+        // random spawn
+        double random_spawn = Math.random();
+        if(random_spawn>0.97) {
+            int i=0;
+            while(coins[i].active && i<coins.length-1) {
+                i++;
+            }
+            if(!coins[i].active) coins[i].replaceSpawn(width);
+        }
+        // move active trees and desactivate trees outside map and check collisions
+        for(int j=0; j<coins.length; j++) {
+            if(coins[j].active) {
+                coins[j].y += coins[j].speed*height*0.025/100;
+                coins[j].updateBox();
+                if(coins[j].y >= height) {
+                    coins[j].setActive(false);
+                }
+                if(coins[j].box.intersects(character_rect.left, character_rect.top, character_rect.right, character_rect.bottom)) {
+                    money += 1;
+                    coins[j].setActive(false);
                 }
             }
         }

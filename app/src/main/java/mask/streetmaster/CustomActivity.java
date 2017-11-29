@@ -122,18 +122,18 @@ public class CustomActivity extends AppCompatActivity {
 
     public Item[] generateItems() {
         Item[] items = new Item[12];
-        items[0] = new Item("CAP", 50, 1, 0, 2, 2); // price, strength, speed, street cred, hp
-        items[1] = new Item("GOLD CHAIN", 100, 0, 0, 5, 2);
-        items[2] = new Item("TRACKSUIT", 150, 3, 3, 3, 5);
-        items[3] = new Item("BASEBALL BAT", 250, 10, 0, 5, 0);
-        items[4] = new Item("KNIFE", 300, 10, 0, 10, 0);
+        items[0] = new Item("CAP", 50, 1, 0, 1, 2); // price, strength, speed, street cred, hp
+        items[1] = new Item("GOLD CHAIN", 100, 0, 0, 1, 3);
+        items[2] = new Item("TRACKSUIT", 150, 3, 3, 1, 5);
+        items[3] = new Item("BASEBALL BAT", 250, 10, 0, 3, 0);
+        items[4] = new Item("KNIFE", 300, 10, 0, 5, 0);
         items[5] = new Item("SNEAKERS", 500, 0, 5, 0, 3);
-        items[6] = new Item("PITBULL", 1000, 10, 0, 20, 3);
-        items[7] = new Item("KATANA", 1000, 20, 0, 20, 0);
+        items[6] = new Item("PITBULL", 1000, 10, 0, 10, 3);
+        items[7] = new Item("KATANA", 1000, 20, 0, 5, 0);
         items[8] = new Item("BULLETPROOF VEST", 2000, 0, 0, 5, 20);
         items[9] = new Item("GLOCK", 3000, 50, 0, 50, 0);
-        items[10] = new Item("SHOTGUN", 5000, 70, 0, 70, 0);
-        items[11] = new Item("FLIP FLOPS", 1000000, 1000, 20, 1000, 1000);
+        items[10] = new Item("SHOTGUN", 8000, 70, 0, 70, 0);
+        items[11] = new Item("FLIP FLOPS", 1000000, 1000, 20, 100, 1000);
         return items;
     }
 
