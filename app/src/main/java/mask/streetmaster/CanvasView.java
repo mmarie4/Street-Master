@@ -157,12 +157,6 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void replay() {
-        // save score  and money
-        SharedPreferences sharedPreferences = context.getSharedPreferences("SAVE", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("STUFF", engine.character.getStringStuff());
-        editor.putString("STATS", engine.character.getStringStats());
-        editor.commit();
         // start new game
         engine.reset();
     }

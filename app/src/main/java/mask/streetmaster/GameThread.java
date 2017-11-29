@@ -3,7 +3,6 @@ package mask.streetmaster;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class GameThread extends Thread {
@@ -43,11 +42,9 @@ public class GameThread extends Thread {
                 }
             }
             sleepTime = ticksPS-(System.currentTimeMillis() - startTime);
-            Log.e("tag", "loop time: " + (ticksPS-sleepTime));
             try {
                 if (sleepTime > 0) {
                     sleep(sleepTime);
-                    Log.e("tag", "sleeptime: " + sleepTime);
                 }
                 else{
                     sleep(5);

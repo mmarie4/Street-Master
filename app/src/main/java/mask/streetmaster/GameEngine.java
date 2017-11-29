@@ -1,13 +1,17 @@
 package mask.streetmaster;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.util.Log;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class GameEngine  {
@@ -26,9 +30,11 @@ public class GameEngine  {
 
     public GameEngine(Character c, Context pContext) {
         character = c;
+        context = pContext;
         _paint = new Paint();
         _paint.setFilterBitmap(true);
-        context = pContext;
+        Typeface tf = Typeface.createFromAsset(context.getAssets(),"fonts/CHILLER.TTF");
+        _paint.setTypeface(tf);
         score=0;
         money=0;
         cred_cop=0;
@@ -66,6 +72,12 @@ public class GameEngine  {
                 if(score > character.bestScore) character.bestScore = score;
                 character.money += money;
                 game_over = true;
+                // save score  and money
+                SharedPreferences sharedPreferences = context.getSharedPreferences("SAVE", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("STUFF", character.getStringStuff());
+                editor.putString("STATS", character.getStringStats());
+                editor.commit();
             }
             updateCharacter();
             handleTrees();
@@ -106,7 +118,7 @@ public class GameEngine  {
         drawGangsters(canvas);
         drawCoins(canvas);
         drawCharacter(canvas);
-        _paint.setTextSize(45);
+        _paint.setTextSize(55);
         _paint.setColor(Color.WHITE);
         canvas.drawText("Score: "+score, (float)(width*3.0/100), (float)(height*3.0/100), _paint);
         canvas.drawText("Money: "+money+" $", (float)(width*3.0/100), (float)(height*6.0/100), _paint);
@@ -116,7 +128,7 @@ public class GameEngine  {
             gameover_rect = new Rect(0, 0, width, height);
             canvas.drawBitmap(gameover_background, null, gameover_rect, _paint);
             _paint.setColor(Color.WHITE);
-            _paint.setTextSize(60);
+            _paint.setTextSize(80);
             canvas.drawText("GAME OVER!", (int)(width*20.0/100), (int)(height*45.0/100), _paint);
             canvas.drawText("Score: "+score, (int)(width*20.0/100), (int)(height*50.0/100), _paint);
             canvas.drawText("Best score: "+character.bestScore, (int)(width*20.0/100), (int)(height*55.0/100), _paint);

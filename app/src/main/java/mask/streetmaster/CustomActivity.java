@@ -137,30 +137,49 @@ public class CustomActivity extends AppCompatActivity {
         return items;
     }
 
-    public void updateStatusAfterBuy(int id){
-        character.money-=items[id].price;
+    public void updateStatusAfterBuy(int id_buy, int id_sold){
+        if(id_sold==-1){
+            character.money-=items[id_buy].price;
 
-        character.stuff[id] = 1;
-        stuff = character.getStringStuff();
+            character.stuff[id_buy] = 1;
+            stuff = character.getStringStuff();
 
-        character.strength+=items[id].strength;
-        character.speed+=items[id].speed;
-        character.cred+=items[id].cred;
-        character.max_hp+=items[id].hp;
-        stats = character.getStringStats();
+            character.strength+=items[id_buy].strength;
+            character.speed+=items[id_buy].speed;
+            character.cred+=items[id_buy].cred;
+            character.max_hp+=items[id_buy].hp;
+            stats = character.getStringStats();
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("STUFF", stuff);
-        editor.putString("STATS", stats);
-        editor.commit();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("STUFF", stuff);
+            editor.putString("STATS", stats);
+            editor.commit();
+        }else{
+            character.money+=items[id_sold].price;
+
+            character.stuff[id_sold] = 0;
+            stuff = character.getStringStuff();
+
+            character.strength-=items[id_sold].strength;
+            character.speed-=items[id_sold].speed;
+            character.cred-=items[id_sold].cred;
+            character.max_hp-=items[id_sold].hp;
+            stats = character.getStringStats();
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("STUFF", stuff);
+            editor.putString("STATS", stats);
+            editor.commit();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                int result = data.getIntExtra("result", 0);
-                updateStatusAfterBuy(result);
+                int result_buy = data.getIntExtra("buy", 0);
+                int result_sold = data.getIntExtra("sale", 0);
+                updateStatusAfterBuy(result_buy, result_sold);
                 updateTextView();
                 updateButtons();
             }
@@ -206,6 +225,18 @@ public class CustomActivity extends AppCompatActivity {
         if (character.stuff[9]==1) item9.setImageResource(R.drawable.item9_equipped);
         if (character.stuff[10]==1) item10.setImageResource(R.drawable.item10_equipped);
         if (character.stuff[11]==1) item11.setImageResource(R.drawable.item11_equipped);
+        if (character.stuff[0]==0)item0.setImageResource(R.drawable.item0);
+        if (character.stuff[1]==0)item1.setImageResource(R.drawable.item1);
+        if (character.stuff[2]==0)item2.setImageResource(R.drawable.item2);
+        if (character.stuff[3]==0)item3.setImageResource(R.drawable.item3);
+        if (character.stuff[4]==0)item4.setImageResource(R.drawable.item4);
+        if (character.stuff[5]==0)item5.setImageResource(R.drawable.item5);
+        if (character.stuff[6]==0)item6.setImageResource(R.drawable.item6);
+        if (character.stuff[7]==0)item7.setImageResource(R.drawable.item7);
+        if (character.stuff[8]==0)item8.setImageResource(R.drawable.item8);
+        if (character.stuff[9]==0) item9.setImageResource(R.drawable.item9);
+        if (character.stuff[10]==0) item10.setImageResource(R.drawable.item10);
+        if (character.stuff[11]==0) item11.setImageResource(R.drawable.item11);
     }
 
     public void setButtonsItems() {

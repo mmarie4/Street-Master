@@ -32,7 +32,7 @@ public class Character implements Serializable {
         cred=0;
         max_hp=20;
         bestScore=0;
-        money=10000000;
+        money=0;
     }
 
     public String getStringStuff() {

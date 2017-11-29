@@ -60,7 +60,8 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("result", number); // number of the item
+                returnIntent.putExtra("sale", -1); // nothing sold
+                returnIntent.putExtra("buy", number); // number of the item
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
@@ -68,6 +69,23 @@ public class ItemActivity extends AppCompatActivity {
         if((money<price) || (equiped)) {
             buy_button.setImageResource(R.drawable.buy_button_off);
             buy_button.setEnabled(false);
+        }
+
+        // set the sell button
+        final ImageButton sell_button = (ImageButton) findViewById(R.id.sell_button);
+        sell_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("buy", -1); // nothing bought
+                returnIntent.putExtra("sale", number); // number of the item
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        });
+        if(!equiped) {
+            sell_button.setImageResource(R.drawable.sell_button_off);
+            sell_button.setEnabled(false);
         }
     }
 
