@@ -65,6 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/buy_button"
         android:layout_centerHorizontal="true"
+        android:background="@null"
         app:srcCompat="@drawable/sell_button" />
 
 </RelativeLayout>

@@ -69,12 +69,19 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
         p.x = (int)(me.getX());
         switch (me.getActionMasked()) {
             case MotionEvent.ACTION_UP:
-                // button clicked
-                if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                if(me.getX(pointerIndex)<width/2){
                     engine.moving_left = false;
                 }
-                if(right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                if(me.getX(pointerIndex)>width/2){
                     engine.moving_right = false;
+                }
+                break;
+            case MotionEvent.ACTION_DOWN:
+                if(me.getX(pointerIndex)<width/2){
+                    engine.moving_left = true;
+                }
+                if(me.getX(pointerIndex)>width/2){
+                    engine.moving_right = true;
                 }
                 if(menu_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
                     thread.interrupt();
@@ -85,46 +92,30 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
                     replay();
                 }
                 break;
-            case MotionEvent.ACTION_DOWN:
-                // stop moving
-                if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
-                    engine.moving_left = true;
+            case MotionEvent.ACTION_MOVE:
+                // click and drag out the zone deactivate the move
+                if(!(me.getX(pointerIndex)<width/2)) {
+                    engine.moving_left=false;
                 }
-                if(right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
-                    engine.moving_right = true;
+                if(!(me.getX(pointerIndex)>width/2)) {
+                    engine.moving_right=false;
                 }
                 break;
-            /*case MotionEvent.ACTION_MOVE:
-                // click and drag out the zone deactivate the move
-                int number_outside_left=0;
-                int number_outside_right=0;
-                for(int i=0; i<me.getPointerCount();i++){
-                    if(!left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
-                        number_outside_left++;
-                    }
-                    if(!right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))) {
-                        number_outside_right++;
-                    }
-                    // now we check if the left and right buttons are really not clicked
-                    if(number_outside_left==me.getPointerCount()) engine.moving_left=false;
-                    if(number_outside_right==me.getPointerCount()) engine.moving_right=false;
-                }
-                break;*/
             case MotionEvent.ACTION_POINTER_DOWN:
                 // second touch
-                if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                if(me.getX(pointerIndex)<width/2){
                     engine.moving_left = true;
                 }
-                if(right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                if(me.getX(pointerIndex)>width/2){
                     engine.moving_right = true;
                 }
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 // second finger leave
-                if(left_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                if(me.getX(pointerIndex)<width/2){
                     engine.moving_left = false;
                 }
-                if(right_button_rect.contains((int)(me.getX(pointerIndex)), (int)(me.getY(pointerIndex)))){
+                if(me.getX(pointerIndex)>width/2){
                     engine.moving_right = false;
                 }
                 break;
@@ -141,19 +132,13 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void initButtons(){
-        int left_x = (int) (width * 5.0/100);
-        int left_y = (int) (height * 97.0/100) - engine.left_button_image.getHeight();
-        int right_x = (int) (width * 95.0/100 - engine.right_button_image.getWidth());
-        int right_y = left_y;
         int menu_x = (int) (width * 75.0/100);
         int menu_y = (int) (height * 2.0/100);
         int replay_x = (int) (width*50.0/100 - engine.replay_button_image.getWidth()/2);
         int replay_y = (int) (height*75.0/100);
-        left_button_rect = new Rect(left_x, left_y, left_x+engine.left_button_image.getWidth(), left_y+engine.left_button_image.getHeight());
-        right_button_rect = new Rect(right_x, right_y, right_x+engine.right_button_image.getWidth(), right_y+engine.right_button_image.getHeight());
         menu_button_rect = new Rect(menu_x, menu_y, menu_x+engine.menu_button_image.getWidth(), menu_y+engine.menu_button_image.getHeight());
         replay_button_rect = new Rect(replay_x, replay_y, replay_x+engine.replay_button_image.getWidth(), replay_y+engine.replay_button_image.getHeight());
-        engine.setRectButtons(left_button_rect, right_button_rect, menu_button_rect, replay_button_rect);
+        engine.setRectButtons(menu_button_rect, replay_button_rect);
     }
 
     public void replay() {

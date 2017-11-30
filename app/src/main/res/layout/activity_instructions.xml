@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Use arrows to move\n\nTREES: you lose 5 HP.\nGANGSTERS: The one with more strength wins (they have between 0 and 200). Fight them to earn 100 pts or lose 5 HP.\nCOPS: GAME OVER. Depending on your street credibility you have a chance to intimidate the cop and be saved (1 cred = 0.1% chance).\nStay alive and beat gangsters to score!\nHave fun!"
+        android:text="Hold your finger on the left to go to the left, on the right to go the right.\n\nTREES: you lose 5 HP.\nGANGSTERS: The one with more strength wins (they have between 0 and 200). Fight them to earn 100 pts or lose 5 HP.\nCOPS: GAME OVER. Depending on your street credibility you have a chance to intimidate the cop and be saved (1 cred = 0.1% chance).\nStay alive and beat gangsters to score!\nHave fun!"
         android:textColor="#FFFFFF"
         android:textSize="24sp"/>
 

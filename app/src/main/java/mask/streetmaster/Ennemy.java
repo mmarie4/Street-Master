@@ -62,6 +62,7 @@ public class Ennemy {
     public void reset() {
         x = 0;
         y = 0-image.getWidth();
+        active=false;
         updateBox();
         fight_done=false;
     }

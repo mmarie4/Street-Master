@@ -21,8 +21,8 @@ public class GameEngine  {
     Bitmap bmp_background, bmp_character, gameover_background, bmp_background_scaled;
     Context context;
     int width, height;
-    Rect background_rect, left_button_rect, right_button_rect, character_rect, menu_button_rect, replay_button_rect, gameover_rect;
-    Bitmap left_button_image, right_button_image, menu_button_image, replay_button_image;
+    Rect background_rect, character_rect, menu_button_rect, replay_button_rect, gameover_rect;
+    Bitmap menu_button_image, replay_button_image;
     Ennemy[] cops, trees, gangsters, coins;
     int score, money, current_hp;
     double cred_cop;
@@ -45,8 +45,6 @@ public class GameEngine  {
         background_rect = new Rect();
         gameover_rect = new Rect();
 
-        left_button_image = BitmapFactory.decodeResource(context.getResources(), R.drawable.left);
-        right_button_image = BitmapFactory.decodeResource(context.getResources(), R.drawable.right);
         bmp_background = BitmapFactory.decodeResource(context.getResources(), R.drawable.backgroundgame);
         bmp_character = BitmapFactory.decodeResource(context.getResources(), R.drawable.character);
         menu_button_image = BitmapFactory.decodeResource(context.getResources(), R.drawable.menu_button);
@@ -139,8 +137,6 @@ public class GameEngine  {
     }
 
     public void drawButtons(Canvas canvas) {
-        canvas.drawBitmap(left_button_image, null, left_button_rect, _paint);
-        canvas.drawBitmap(right_button_image, null, right_button_rect, _paint);
         canvas.drawBitmap(menu_button_image, null, menu_button_rect, _paint);
     }
 
@@ -180,9 +176,7 @@ public class GameEngine  {
         }
     }
 
-    public void setRectButtons(Rect left, Rect right, Rect menu, Rect replay) {
-        left_button_rect = left;
-        right_button_rect = right;
+    public void setRectButtons(Rect menu, Rect replay) {
         menu_button_rect = menu;
         replay_button_rect = replay;
     }
@@ -312,9 +306,12 @@ public class GameEngine  {
         current_hp=character.max_hp;
         character.x=(int)(width*50.0/100-bmp_character.getWidth());
         game_over=false;
+        moving_left=false;
+        moving_right=false;
         for(int i = 0; i<cops.length; i++) cops[i].reset();
         for(int j = 0; j<trees.length; j++) trees[j].reset();
         for(int k = 0; k<gangsters.length; k++) gangsters[k].reset();
+        for(int l = 0; l<coins.length; l++) coins[l].reset();
     }
 
     public void setScaledBackground() {
