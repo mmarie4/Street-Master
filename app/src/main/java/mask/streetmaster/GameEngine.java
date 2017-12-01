@@ -70,6 +70,12 @@ public class GameEngine  {
                 if(score > character.bestScore) character.bestScore = score;
                 character.money += money;
                 game_over = true;
+                // if it was during an animation
+                if(character.animation_losing_life) {
+                    character.animation_losing_life=false;
+                    character.index_animation=0;
+                    character.speed = character.speed*2;
+                }
                 // save score  and money
                 SharedPreferences sharedPreferences = context.getSharedPreferences("SAVE", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -86,6 +92,15 @@ public class GameEngine  {
     }
 
     public void updateCharacter() {
+        // animation
+        if(character.animation_losing_life) {
+            if(character.index_animation>=character.tab_animation.length) {
+                character.animation_losing_life=false;
+                character.speed = character.speed*2;
+                character.index_animation=0;
+            }
+
+        }
         if(moving_left) {
             character.x -= (int)(character.speed*width*0.08/100);
         }
@@ -141,7 +156,14 @@ public class GameEngine  {
     }
 
     public void drawCharacter(Canvas canvas) {
-        canvas.drawBitmap(bmp_character, null, character_rect, _paint);
+        if(character.animation_losing_life){
+            if(character.tab_animation[character.index_animation] == 1){
+                canvas.drawBitmap(bmp_character, null, character_rect, _paint);
+            }
+            character.index_animation++;
+        }else{
+            canvas.drawBitmap(bmp_character, null, character_rect, _paint);
+        }
     }
 
     public void drawCops(Canvas canvas) {
@@ -221,7 +243,7 @@ public class GameEngine  {
             }
             if(!trees[i].active) trees[i].replaceSpawn(width);
         }
-        // move active trees and desactivate trees outside map and check collisions
+        // move active trees and deactivate trees outside map and check collisions
         for(int j=0; j<trees.length; j++) {
             if(trees[j].active) {
                 trees[j].y += trees[j].speed*height*0.025/100;
@@ -231,7 +253,12 @@ public class GameEngine  {
                 }
                 if(trees[j].box.intersects(character_rect.left, character_rect.top, character_rect.right, character_rect.bottom)) {
                     if(!trees[j].fight_done) {
-                        current_hp -= 5;
+                        if(!character.animation_losing_life) {
+                            character.speed = character.speed/2;
+                            character.animation_losing_life=true;
+                            character.index_animation=0;
+                            current_hp -= 5;
+                        }
                         trees[j].fight_done = true;
                     }
                 }
@@ -249,7 +276,7 @@ public class GameEngine  {
             }
             if(!gangsters[i].active) gangsters[i].replaceSpawn(width);
         }
-        // move active gangsters and desactivate gangsters outside map
+        // move active gangsters and deactivate gangsters outside map
         for(int j=0; j<gangsters.length; j++) {
             if(gangsters[j].active) {
                 gangsters[j].y += gangsters[j].speed*height*0.025/100;
@@ -262,7 +289,12 @@ public class GameEngine  {
                     if(!gangsters[j].fight_done) {
                         gangsters[j].strength = (int)(Math.random()*200);
                         if(gangsters[j].strength>character.strength) {
-                            current_hp -= 5;
+                            if(!character.animation_losing_life){
+                                character.speed = character.speed/2;
+                                character.animation_losing_life=true;
+                                character.index_animation=0;
+                                current_hp -= 5;
+                            }
                             gangsters[j].fight_done = true;
                         }else{
                             score += 100;

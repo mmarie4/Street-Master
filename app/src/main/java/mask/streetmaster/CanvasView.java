@@ -92,7 +92,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
                     replay();
                 }
                 break;
-            case MotionEvent.ACTION_MOVE:
+            /* MotionEvent.ACTION_MOVE:
                 // click and drag out the zone deactivate the move
                 if(!(me.getX(pointerIndex)<width/2)) {
                     engine.moving_left=false;
@@ -100,7 +100,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback
                 if(!(me.getX(pointerIndex)>width/2)) {
                     engine.moving_right=false;
                 }
-                break;
+                break;*/
             case MotionEvent.ACTION_POINTER_DOWN:
                 // second touch
                 if(me.getX(pointerIndex)<width/2){
