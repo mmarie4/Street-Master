@@ -211,9 +211,13 @@ public class GameEngine  {
             while(cops[i].active && i<cops.length-1) {
                 i++;
             }
-            if(!cops[i].active) cops[i].replaceSpawn(width);
+            if(!cops[i].active && checkIfSpawnPossible(cops[i], i)){
+                cops[i].replaceSpawn(width);
+                // if there is a collision we cancel the spawn
+                if(!checkIfSpawnPossible(cops[i], i)) cops[i].setActive(false);
+            }
         }
-        // move active cops, desactivate cops outside map, and check collision with character
+        // move active cops, deactivate cops outside map, and check collision with character
         for(int j=0; j<cops.length; j++) {
             if(cops[j].active) {
                 cops[j].y += cops[j].speed*height*0.025/100;
@@ -236,12 +240,16 @@ public class GameEngine  {
     public void handleTrees() {
         // random spawn
         double random_spawn = Math.random();
-        if(random_spawn>0.98) {
+        if(random_spawn>0.97) {
             int i=0;
             while(trees[i].active && i<trees.length-1) {
                 i++;
             }
-            if(!trees[i].active) trees[i].replaceSpawn(width);
+            if(!trees[i].active) {
+                trees[i].replaceSpawn(width);
+                // if there is a collision we cancel the spawn
+                if(!checkIfSpawnPossible(trees[i], i)) trees[i].setActive(false);
+            }
         }
         // move active trees and deactivate trees outside map and check collisions
         for(int j=0; j<trees.length; j++) {
@@ -269,13 +277,20 @@ public class GameEngine  {
     public void handleGangsters() {
         // random spawn
         double random_spawn = Math.random();
-        if(random_spawn>0.96) {
+        if(random_spawn>0.95) {
             int i=0;
             while(gangsters[i].active && i<gangsters.length-1) {
                 i++;
             }
-            if(!gangsters[i].active) gangsters[i].replaceSpawn(width);
+            if(!gangsters[i].active) {
+                if(checkIfSpawnPossible(gangsters[i], i)) {
+                    gangsters[i].replaceSpawn(width);
+                    // if there is a collision we cancel the spawn
+                    if(!checkIfSpawnPossible(gangsters[i], i)) gangsters[i].setActive(false);
+                }
+            }
         }
+
         // move active gangsters and deactivate gangsters outside map
         for(int j=0; j<gangsters.length; j++) {
             if(gangsters[j].active) {
@@ -309,12 +324,16 @@ public class GameEngine  {
     public void handleCoins() {
         // random spawn
         double random_spawn = Math.random();
-        if(random_spawn>0.97) {
+        if(random_spawn>0.96) {
             int i=0;
             while(coins[i].active && i<coins.length-1) {
                 i++;
             }
-            if(!coins[i].active) coins[i].replaceSpawn(width);
+            if(!coins[i].active && checkIfSpawnPossible(coins[i], i)) {
+                coins[i].replaceSpawn(width);
+                // if there is a collision we cancel the spawn
+                if(!checkIfSpawnPossible(coins[i], i)) coins[i].setActive(false);
+            }
         }
         // move active trees and desactivate trees outside map and check collisions
         for(int j=0; j<coins.length; j++) {
@@ -348,5 +367,40 @@ public class GameEngine  {
 
     public void setScaledBackground() {
         bmp_background_scaled = Bitmap.createScaledBitmap(bmp_background, width, height, true);
+    }
+
+    // check if there is a collision with existing object(i.e if spawn is possible or not)
+    public boolean checkIfSpawnPossible(Ennemy object, int index){
+        for(int i=0; i<gangsters.length; i++){
+            // check if it is the same object or a different one
+            if(gangsters[i] != object) {
+                // if not the same object, we can ckeck if there is any collision
+                if(gangsters[i].active && gangsters[i].box.intersects(object.box.left, object.box.top, object.box.right, object.box.bottom)){
+                    return false;
+                }
+            }
+        }
+        for(int j=0; j<trees.length; j++){
+            if(trees[j] != object) {
+                if((trees[j].active) && trees[j].box.intersects(object.box.left, object.box.top, object.box.right, object.box.bottom)){
+                    return false;
+                }
+            }
+        }
+        for(int k=0; k<cops.length; k++){
+            if(cops[k] != object) {
+                if(cops[k].active && cops[k].box.intersects(object.box.left, object.box.top, object.box.right, object.box.bottom)){
+                    return false;
+                }
+            }
+        }
+        for(int l=0; l<coins.length; l++){
+            if(coins[l] != object) {
+                if(coins[l].active && coins[l].box.intersects(object.box.left, object.box.top, object.box.right, object.box.bottom)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
